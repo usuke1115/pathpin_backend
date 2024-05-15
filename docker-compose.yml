@@ -1,0 +1,14 @@
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./docker/python
+      dockerfile: ./Dockerfile
+    user: pyuser
+    working_dir: /home/pyuser/backend
+    volumes:
+      - ./backend:/home/pyuser/backend
+    command: python manage.py runserver 0.0.0.0:5001
+    ports:
+      - 5001:5001
+    tty: true
