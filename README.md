@@ -7,3 +7,239 @@ docker compose up --build
 ```
 http://localhost:5001
 ```
+
+
+# DBテーブル設計
+## Foldersテーブル
+- id : integer, primary key, autoincrement
+- name : string
+- created_at : string
+- updated_at : string
+- places_id : foreign key, integer
+
+## Placesテーブル
+- id : integer, primary key, autoincrement
+- name : string
+- address : string
+- image_url : string
+- memo : string
+- created_at : string
+- updated_at : string
+- user_id : foreign key, integer
+
+## Usersテーブル
+- id : integer, primary key, autoincrement
+- name : string
+- email : string
+- password : string
+- created_at : string
+- updated_at : string
+
+
+## エンドポイント
+### folders/
+- GET
+```
+{
+    {
+        id : 1,
+        name : "Hoge",
+        created_at : 2024-05-15,
+        updated_at : 2024-05-20,
+        place_id: 1
+    },
+    {
+        id : 2,
+        name : "Fuga",
+        created_at : 2024-05-14,
+        updated_at : 2024-05-28,
+        place_id: 3
+    }
+}
+```
+
+- POST
+
+
+新しいフォルダを作成する.
+フォルダ名と作成日を追加する.
+```
+{
+    status : 200,
+    message : "Success!"
+}
+```
+
+
+### folers/int:folder_id
+http://localhost/folders/1 を例にする.
+
+- GET
+```
+{
+    id : 1,
+    name : "Hoge",
+    created_at : 2024-05-15,
+    updated_at : 2024-05-20,
+    place_id: 1
+}
+```
+
+- PUT
+
+
+folder_idが1のフォルダの名前を変更する.
+updated_atに日付を追加する.
+```
+{
+    status : 200,
+    message : "Success!"
+}
+```
+
+- DELETE
+
+
+folder_idが1のフォルダを削除する.
+```
+{
+    status : 200,
+    message : "Success!"
+}
+```
+
+
+### places/
+
+- GET
+```
+{
+    {
+        id : 1,
+        name : "神戸",
+        address : "670-0012 兵庫県神戸市",
+        image_url : "https://exmaple.com",
+        memo : "楽しかった！",
+        created_at : 2024-05-17,
+        updated_at : 2-24-09-12,
+        user_id : 1
+    },
+    {
+        id : 2,
+        name : "北海道",
+        address : "",
+        image_url : "https://exmaple.com/contents",
+        memo : "楽しかった！",
+        created_at : 2024-05-27,
+        updated_at : 2-24-09-02,
+        user_id : 2
+    }
+}
+```
+
+- POST
+
+
+新しい場所を作成する.
+場所名と作成日を追加する.
+```
+{
+    status : 200,
+    message : "Success!"
+}
+```
+
+
+### places/int:place_id
+
+http://localhost/places/1を例にする.
+
+- GET
+```
+{
+    id : 1,
+    name : "神戸",
+    address : "670-0012 兵庫県神戸市",
+    image_url : "https://exmaple.com",
+    memo : "楽しかった！",
+    created_at : 2024-05-17,
+    updated_at : 2-24-09-12,
+    user_id : 1
+}
+```
+
+- PUT
+
+
+place_idが1の場所の名前を変更する. or メモを変更する or 住所を変更する or 画像を変更する.
+updated_atに日付を追加する.
+```
+{
+    status : 200,
+    message : "Success!"
+}
+```
+
+- DELETE
+
+
+place_idが1の場所を削除する.
+```
+{
+    status : 200,
+    message : "Success!"
+}
+```
+
+
+## signin/
+- POST
+
+
+ユーザの名前, メールアドレス, パスワードがフロントエンドから送られる.
+```
+{
+    status : 200,
+    message: "Success!"
+}
+```
+
+
+### login/int:user_id
+http://localhsot/login/1 を例にする.
+- GET
+```
+{
+    id : 1,
+    name : "root",
+    email : "exmaple@gmail.com",
+    password : "p@ssw0rd",
+    created_at : 2024-05-01,
+    updated_at : null
+}
+```
+
+- PUT
+
+
+ユーザ名を変更 or メールアドレスを変更 or パスワードを変更.
+変更日時を保存する.
+```
+{
+    status : 200,
+    message: "Success!"
+}
+```
+
+### delete/int:user_id
+http://localhsot/delete/1 を例にする.
+- DELETE
+
+
+user_idが1のユーザを削除.
+```
+{
+    status : 200,
+    message: "Success!"
+}
+```
