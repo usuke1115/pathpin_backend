@@ -8,6 +8,35 @@ docker compose up --build
 http://localhost:5001
 ```
 
+# Gitの操作
+### ブランチの新規作成 & ブランチの切り替え
+```
+$ git switch -c <ブランチ名>
+```
+
+### ブランチの切り替え
+```
+$ git switch <ブランチ名>
+```
+
+### ブランチ名の変更
+```
+$ git branch -m <古いブランチ名> <新しいブランチ名>
+```
+- 今開いているブランチの名前を変更したい場合
+```
+$ git branch -m <新しいブランチ名>
+```
+
+### git addしていないファイルを元に戻す
+```
+$ git checkout <ファイル名>
+```
+
+### git addしたファイルを元に戻す
+```
+$ git reset <ファイル名>
+```
 
 # DBテーブル設計
 ## Foldersテーブル
@@ -192,7 +221,7 @@ place_idが1の場所を削除する.
 ```
 
 
-## signin/
+### signin/
 - POST
 
 
