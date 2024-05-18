@@ -8,6 +8,22 @@ docker compose up --build
 http://localhost:5001
 ```
 
+# POST PUT DELETEメソッドの実行
+### POST
+```
+curl -X POST https://exmamle.com -d "name=my-folder"
+```
+
+### PUT
+```
+curl -X PUT https://exmamle.com -d "name=rename"
+```
+
+### DELETE
+```
+curl -X DELETE https://exmamle.com
+```
+
 # Gitの操作
 ### ブランチの新規作成 & ブランチの切り替え
 ```

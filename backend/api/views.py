@@ -84,29 +84,24 @@ class FoldersViewId(APIView):
         try:
             folder = Folders.objects.get(id=folder_id)
             serializer = FoldersSerializer(folder)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status.HTTP_200_OK)
-            else:
-                print("hoge")
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status.HTTP_200_OK)
         except Folders.DoesNotExist:
-            print("Hoe")
-            return Response(status.HTTP_404_NOT_FOUND)
+            return Response({
+                "message": f"The folder with folder_id {folder_id} could not be found."
+            }, status.HTTP_404_NOT_FOUND)
 
     def put(self, request, folder_id):
         try:
             folder = Folders.objects.get(id=folder_id)
             serializer = FoldersSerializer(folder, data=request.data)
-            if serializer.is_valid():
-                if 'name' in data:
-                    folder.name = data['name']
-                if 'updated_at' in data:
-                    folder.updated_at = data['updated_at']
-                folder.save()
-                serializer = FoldersSerializer(folder)
-                return Response(serializer.data, status.HTTP_200_OK)
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+            serializer.is_valid(raise_exception=True)
+            if 'name' in serializer:
+                folder.name = request.data['name']
+            if 'updated_at' in serializer:
+                folder.updated_at = request.data['updated_at']
+            folder.save()
+            new_serializer = FoldersSerializer(folder)
+            return Response(new_serializer.data, status.HTTP_200_OK)
         except Folders.DoesNotExist:
             return Response(status.HTTP_404_NOT_FOUND)
 
