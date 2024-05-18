@@ -64,8 +64,32 @@ $ git reset <ファイル名>
 - created_at : string
 - updated_at : string
 
+## 変更
+FolderモデルとPlaceモデルは1対多の関係なので以下のように定義を変更します.
+### Foldersテーブル
+```diff
+1. id : integer, primary key, autoincrement
+2. name : string
+3. created_at : string
+4. updated_at : string
+- places_id : foreign key, integer
+```
 
-## エンドポイント
+### Placesテーブル
+```diff
+1. id : integer, primary key, autoincrement
+2. name : string
+3. address : string
+4. image_url : string
+5. memo : string
+6. created_at : string
+7. updated_at : string
+8. user_id : foreign key, integer
++ folder_id : foreign key, integer
+```
+
+
+# エンドポイント
 ### folders/
 - GET
 ```
