@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Folders, Places
-from serializers import FoldersSerializer, PlacesSerializer
+from .serializers import FoldersSerializer, PlacesSerializer
 from rest_framework import status
 
 class PlacesView(APIView):
@@ -28,12 +28,9 @@ class PlacesViewID(APIView):
         try:
             place = Places.objects.get(id=place_id)
             serializer = PlacesSerializer(place)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status.HTTP_200_OK)
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status.HTTP_200_OK)
         except Places.DoesNotExist:
-            return Response(status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "Place not found"},status.HTTP_404_NOT_FOUND)
    
     def put(self,request,place_id):
         # IDで指定したの（場所の名前の変更 or メモを変更 or 住所を変更 or 画像を変更 or updated_atに日付を追加）
