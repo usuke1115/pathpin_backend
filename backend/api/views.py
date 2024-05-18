@@ -34,3 +34,11 @@ class PlacesViewID(APIView):
         pass
 
 """
+
+class FoldersView(APIView):
+    def get(self, request):
+        return Response(status.HTTP_200_OK)
+
+class FoldersViewId(APIView):
+    def get(self, request, folder_id):
+        return Response(status.HTTP_200_OK)
