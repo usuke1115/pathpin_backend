@@ -52,10 +52,10 @@ class PlacesViewID(APIView):
                     place.updated_at = data['updated_at']
                 place.save()
                 serializer = PlacesSerializer(place)
-                return Response(serializer.data,status.HTTP_200_OK)
+                return Response({"message","Successfully updated!"},status.HTTP_200_OK)
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
         except Places.DoesNotExist:
-            return Response(status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "Place not found"},status.HTTP_404_NOT_FOUND)
 
     def delete(self,request,place_id):
         # IDで指定した場所を削除
