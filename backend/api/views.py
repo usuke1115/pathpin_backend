@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Folders, Places
-from serializers import FoldersSerializer, PlacesSerializer
+from .serializers import FoldersSerializer, PlacesSerializer
 from rest_framework import status
 
 class PlacesView(APIView):
