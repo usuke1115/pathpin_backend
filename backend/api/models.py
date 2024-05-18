@@ -15,4 +15,3 @@ class Places(models.Model):
     memo = models.CharField(max_length=256)   # memo = models.TextField(blank=True)
     create_at = models.CharField(max_length=256)    # create_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.CharField(max_length=256)   # updated_at = models.DateTimeField(auto_now=Ture)
-    folder_id = models.ForeignKey(Folders, on_delete=models.CASCADE)
