@@ -10,6 +10,3 @@ class Places(models.Model):
     memo = models.CharField()   # memo = models.TextField(blank=True)
     create_at = models.CharField(max_length=256)    # create_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.CharField(max_length=256)   # updated_at = models.DateTimeField(auto_now=Ture)
-
-
-
