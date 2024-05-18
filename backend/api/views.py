@@ -94,13 +94,14 @@ class FoldersViewId(APIView):
         try:
             folder = Folders.objects.get(id=folder_id)
             serializer = FoldersSerializer(folder, data=request.data)
-            if 'name' in data:
-                folder.name = data['name']
-            if 'updated_at' in data:
-                folder.updated_at = data['updated_at']
+            serializer.is_valid(raise_exception=True)
+            if 'name' in serializer:
+                folder.name = request.data['name']
+            if 'updated_at' in serializer:
+                folder.updated_at = request.data['updated_at']
             folder.save()
-            serializer = FoldersSerializer(folder)
-            return Response(serializer.data, status.HTTP_200_OK)
+            new_serializer = FoldersSerializer(folder)
+            return Response(new_serializer.data, status.HTTP_200_OK)
         except Folders.DoesNotExist:
             return Response(status.HTTP_404_NOT_FOUND)
 
