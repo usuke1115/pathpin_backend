@@ -119,7 +119,7 @@ FolderモデルとPlaceモデルは1対多の関係なので以下のように�
 ```
 {
     status : 200,
-    message : "Success!"
+    message : "Successfully created a new folder!"
 }
 ```
 
@@ -146,7 +146,7 @@ updated_atに日付を追加する.
 ```
 {
     status : 200,
-    message : "Success!"
+    message : "Successfully renamed the folder!"
 }
 ```
 
@@ -157,7 +157,7 @@ folder_idが1のフォルダを削除する.
 ```
 {
     status : 200,
-    message : "Success!"
+    message : "Successfully deleted the folder!"
 }
 ```
 
@@ -198,7 +198,7 @@ folder_idが1のフォルダを削除する.
 ```
 {
     status : 200,
-    message : "Success!"
+    message : "Successfully created a new location!"
 }
 ```
 
@@ -226,10 +226,33 @@ http://localhost/places/1を例にする.
 
 place_idが1の場所の名前を変更する. or メモを変更する or 住所を変更する or 画像を変更する.
 updated_atに日付を追加する.
+
+場所の名前を変更したら
 ```
 {
     status : 200,
-    message : "Success!"
+    message : "Successfully renamed the location!"
+}
+```
+メモを変更したら
+```
+{
+    status : 200,
+    message : "Successfully renamed the memo!"
+}
+```
+住所を変更したら
+```
+{
+    status : 200,
+    message : "Successfully renamed the address!"
+}
+```
+画像を変更したら
+```
+{
+    status : 200,
+    message : "Successfully renamed the image url!"
 }
 ```
 
@@ -240,7 +263,7 @@ place_idが1の場所を削除する.
 ```
 {
     status : 200,
-    message : "Success!"
+    message : "Successfully deleted the location!"
 }
 ```
 
@@ -253,7 +276,7 @@ place_idが1の場所を削除する.
 ```
 {
     status : 200,
-    message: "Success!"
+    message: "Successfully created the user!"
 }
 ```
 
@@ -277,10 +300,26 @@ http://localhsot/login/1 を例にする.
 
 ユーザ名を変更 or メールアドレスを変更 or パスワードを変更.
 変更日時を保存する.
+
+ユーザ名を変更した場合
 ```
 {
     status : 200,
-    message: "Success!"
+    message: "Successfully renamed the name!"
+}
+```
+メールアドレスを変更した場合
+```
+{
+    status : 200,
+    message: "Successfully renamed the email!"
+}
+```
+パスワードを変更した場合
+```
+{
+    status : 200,
+    message: "Successfully renamed the password!"
 }
 ```
 
@@ -293,6 +332,6 @@ user_idが1のユーザを削除.
 ```
 {
     status : 200,
-    message: "Success!"
+    message: "Successfully deleted the user!"
 }
 ```
