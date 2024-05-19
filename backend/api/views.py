@@ -62,6 +62,14 @@ class PlacesViewID(APIView):
 class FoldersView(APIView):
     def get(self, request):
         folders = Folders.objects.all()
+        name = request.GET.get('name', '')
+        created_at = request.GET.get('created_at', '')
+        
+        if name:
+            folders = folders.filter(name=name)
+        if created_at:
+            folders = folders.filter(created_at=created_at)
+        
         serializers = FoldersSerializer(folders, many=True)
         return Response(serializers.data, status.HTTP_200_OK)
 
