@@ -85,12 +85,18 @@ class FoldersViewId(APIView):
             serializer.save()
             return Response(serializer.data, status.HTTP_200_OK)
         except Folders.DoesNotExist:
-            return Response(status.HTTP_404_NOT_FOUND)
+            return Response({
+                "message": f"The folder with folder_id {folder_id} could not be found."
+            }, status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, folder_id):
         try:
             folder = Folders.objects.get(id=folder_id)
             folder.delete()
-            return Response(status.HTTP_204_NO_CONTENT)
+            return Response({
+                "message": "Successfully created a new folder!"
+            }, status.HTTP_204_NO_CONTENT)
         except Folders.DoesNotExist:
-            return Response(status.HTTP_404_NOT_FOUND)
+            return Response({
+                "message": f"The folder with folder_id {folder_id} could not be found."
+            }, status.HTTP_404_NOT_FOUND)
