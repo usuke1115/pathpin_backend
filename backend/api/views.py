@@ -14,7 +14,7 @@ class PlacesView(APIView):
     
     def post(self,request,format=None):
         # 新しい場所の作成
-        serializer = PlacesSerializer(data=request.data)
+        serializer = PlacesSerializer(data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "Successfully created a new location!"},HTTP_200_OK)
@@ -37,23 +37,10 @@ class PlacesViewID(APIView):
         # 変更した項目ごとにHTTPレスポンスの内容を変更する
         try:
             place = Places.objects.get(id=place_id)
-            serializer = PlacesSerializer(place, data=request.data)
-            if serializer.is_valid:
-                # リクエストのデータに含まれるフィールドを更新
-                if 'name' in data:
-                    place.name = data['name']
-                if 'memo' in data:
-                    place.memo = data['memo']
-                if 'address' in data:
-                    place.address = data['address']
-                if 'image_url' in data:
-                    place.image_url = data['image_url']
-                if 'updated_at' in data:
-                    place.updated_at = data['updated_at']
-                place.save()
-                serializer = PlacesSerializer(place)
-                return Response({"message","Successfully updated!"},status.HTTP_200_OK)
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+            serializer = PlacesSerializer(place, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response({"message","Successfully updated!"},status.HTTP_200_OK)
         except Places.DoesNotExist:
             return Response({"detail": "Place not found"},status.HTTP_404_NOT_FOUND)
 
@@ -93,15 +80,10 @@ class FoldersViewId(APIView):
     def put(self, request, folder_id):
         try:
             folder = Folders.objects.get(id=folder_id)
-            serializer = FoldersSerializer(folder, data=request.data)
+            serializer = FoldersSerializer(folder, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
-            if 'name' in serializer:
-                folder.name = request.data['name']
-            if 'updated_at' in serializer:
-                folder.updated_at = request.data['updated_at']
-            folder.save()
-            new_serializer = FoldersSerializer(folder)
-            return Response(new_serializer.data, status.HTTP_200_OK)
+            serializer.save()
+            return Response(serializer.data, status.HTTP_200_OK)
         except Folders.DoesNotExist:
             return Response(status.HTTP_404_NOT_FOUND)
 
