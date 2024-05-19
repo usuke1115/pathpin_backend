@@ -9,6 +9,12 @@ class PlacesView(APIView):
     def get(self,request,format=None):
         # 場所の一覧を取得する、一覧取得
         places = Places.objects.all()
+        name = request.GET.get('name','')
+        created_at = request.GET.get('created_at','') # クエリパラメータの取得、初期値は空文字
+        if name:
+            places = places.filter(name=name)
+        if created_at:
+            places = places.filter(created_at=created_at)
         serializers = PlacesSerializer(places,many=True)
         return Response(serializers.data,status.HTTP_200_OK)
     
@@ -17,7 +23,7 @@ class PlacesView(APIView):
         serializer = PlacesSerializer(data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response({"message": "Successfully created a new location!"},HTTP_200_OK)
+            return Response({"message": "Successfully created a new location!"},status.HTTP_200_OK)
         return Response(serializer.errors,status.HTTP_400_BAD_REQUEST)
 
 
@@ -40,7 +46,7 @@ class PlacesViewID(APIView):
             serializer = PlacesSerializer(place, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response({"message","Successfully updated!"},status.HTTP_200_OK)
+            return Response({"message":"Successfully updated!"},status.HTTP_200_OK)
         except Places.DoesNotExist:
             return Response({"detail": "Place not found"},status.HTTP_404_NOT_FOUND)
 
