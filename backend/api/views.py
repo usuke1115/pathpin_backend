@@ -1,25 +1,30 @@
-from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .models import Folders, Places
 from .serializers import FoldersSerializer, PlacesSerializer
-from rest_framework import status
+
 
 class PlacesView(APIView):
-    # 場所に関する関数
     def get(self,request,format=None):
-        # 場所の一覧を取得する、一覧取得
-        places = Places.objects.all()
-        name = request.GET.get('name','')
-        created_at = request.GET.get('created_at','') # クエリパラメータの取得、初期値は空文字
+        name = request.GET.get('name', '')
         if name:
-            places = places.filter(name=name)
+            places = Places.get_by_name(name)
+            serializers = PlacesSerializer(places, many=True)
+            return Response(serializers.data, status.HTTP_200_OK)
+        
+        created_at = request.GET.get('created_at', '')
         if created_at:
-            places = places.filter(created_at=created_at)
-        serializers = PlacesSerializer(places,many=True)
-        return Response(serializers.data,status.HTTP_200_OK)
+            places = Places.get_by_created_at(created_at)
+            serializers = PlacesSerializer(places, many=True)
+            return Response(serializers.data, status.HTTP_200_OK)
+        
+        places = Places.get_all()
+        serializers = PlacesSerializer(places, many=True)
+        return Response(serializers.data, status.HTTP_200_OK)
     
     def post(self,request,format=None):
-        # 新しい場所の作成
         serializer = PlacesSerializer(data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -28,9 +33,7 @@ class PlacesView(APIView):
 
 
 class PlacesViewID(APIView):
-    # 場所のIDを使用した関数
     def get(self,request,place_id):
-        # IDで指定した場所を取得
         try:
             place = Places.objects.get(id=place_id)
             serializer = PlacesSerializer(place)
@@ -39,8 +42,6 @@ class PlacesViewID(APIView):
             return Response({"detail": "Place not found"},status.HTTP_404_NOT_FOUND)
    
     def put(self,request,place_id):
-        # IDで指定したの（場所の名前の変更 or メモを変更 or 住所を変更 or 画像を変更 or updated_atに日付を追加）
-        # 変更した項目ごとにHTTPレスポンスの内容を変更する
         try:
             place = Places.objects.get(id=place_id)
             serializer = PlacesSerializer(place, data=request.data, partial=True)
@@ -51,7 +52,6 @@ class PlacesViewID(APIView):
             return Response({"detail": "Place not found"},status.HTTP_404_NOT_FOUND)
 
     def delete(self,request,place_id):
-        # IDで指定した場所を削除
         try:
             place = Places.objects.get(id=place_id)
             place.delete()
@@ -61,15 +61,19 @@ class PlacesViewID(APIView):
 
 class FoldersView(APIView):
     def get(self, request):
-        folders = Folders.objects.all()
         name = request.GET.get('name', '')
-        created_at = request.GET.get('created_at', '')
-        
         if name:
-            folders = folders.filter(name=name)
-        if created_at:
-            folders = folders.filter(created_at=created_at)
+            folders = Folders.get_by_name(name)
+            serializers = FoldersSerializer(folders, many=True)
+            return Response(serializers.data, status.HTTP_200_OK)
         
+        created_at = request.GET.get('created_at', '')
+        if created_at:
+            folders = Folders.get_by_created_at(created_at=created_at)
+            serializers = FoldersSerializer(folders, many=True)
+            return Response(serializers.data, status.HTTP_200_OK)
+        
+        folders = Folders.get_all()
         serializers = FoldersSerializer(folders, many=True)
         return Response(serializers.data, status.HTTP_200_OK)
 
